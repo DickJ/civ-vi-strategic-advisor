@@ -116,6 +116,10 @@ local function onUpdate(deltaTime)
 end
 
 local function initialize()
+  -- Current Civ VI builds create AddUserInterfaces contexts hidden. An overlay
+  -- context must explicitly opt into visibility after it has initialized.
+  ContextPtr:SetHide(false)
+  Controls.AdvisorRoot:SetHide(false)
   for index, button in ipairs(m_buttons) do
     button:RegisterCallback(Mouse.eLClick, function() showRecommendation(index) end)
   end

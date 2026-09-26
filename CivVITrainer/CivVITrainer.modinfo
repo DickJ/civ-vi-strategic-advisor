@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="3b473f26-769d-4baa-9e6b-8ddfbf15f674" version="1">
+<Mod id="3b473f26-769d-4baa-9e6b-8ddfbf15f674" version="2">
   <Properties>
     <Name>Civ VI Strategic Advisor</Name>
     <Teaser>Offline, explainable next-move recommendations.</Teaser>
@@ -37,4 +37,3 @@
     <File>UI/CivVITrainer_State.lua</File>
   </Files>
 </Mod>
-

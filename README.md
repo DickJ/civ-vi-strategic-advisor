@@ -19,6 +19,8 @@ This repository currently contains the first playable vertical slice:
 - automatic recomputation after game-core event playback so recommendations
   update repeatedly during a turn.
 
+Current package version: **2**.
+
 The advisor previews actions only. It never issues orders.
 
 ## Install on Windows
