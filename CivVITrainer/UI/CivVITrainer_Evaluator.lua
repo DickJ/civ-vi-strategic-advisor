@@ -1,5 +1,7 @@
-local Util = include("CivVITrainer_Util")
-local Strategy = include("CivVITrainer_Strategy")
+include("CivVITrainer_Util")
+include("CivVITrainer_Strategy")
+local Util = CivVITrainer_Util
+local Strategy = CivVITrainer_Strategy
 local Evaluator = {}
 
 local function addCandidate(list, candidate)
@@ -274,4 +276,5 @@ function Evaluator.Rank(snapshot, count)
   return result
 end
 
+CivVITrainer_Evaluator = Evaluator
 return Evaluator

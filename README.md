@@ -19,7 +19,7 @@ This repository currently contains the first playable vertical slice:
 - automatic recomputation after game-core event playback so recommendations
   update repeatedly during a turn.
 
-Current package version: **2**.
+Current package version: **3**.
 
 The advisor previews actions only. It never issues orders.
 
@@ -74,6 +74,10 @@ recommendation to:
 2. center the camera on the destination,
 3. highlight the proposed path/targets, and
 4. open the technical explanation.
+
+Drag the **STRATEGIC ADVISOR** title to move the panel. Use **Collapse** to
+reduce it to its title bar so it never obstructs production, research, or the
+end-turn controls.
 
 Use **Refresh** to recompute immediately. The list also refreshes after game
 actions finish and at the beginning of each local turn.

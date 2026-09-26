@@ -1,4 +1,5 @@
-local Util = include("CivVITrainer_Util")
+include("CivVITrainer_Util")
+local Util = CivVITrainer_Util
 local State = {}
 
 local function lookup(text)
@@ -312,4 +313,5 @@ function State.Capture()
   }
 end
 
+CivVITrainer_State = State
 return State

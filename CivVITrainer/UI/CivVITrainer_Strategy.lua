@@ -1,4 +1,5 @@
-local Util = include("CivVITrainer_Util")
+include("CivVITrainer_Util")
+local Util = CivVITrainer_Util
 local Strategy = {}
 
 local BASE = {
@@ -64,5 +65,5 @@ function Strategy.Derive(snapshot)
   return weights
 end
 
+CivVITrainer_Strategy = Strategy
 return Strategy
-

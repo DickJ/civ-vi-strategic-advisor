@@ -48,5 +48,5 @@ function Util.Try(callable, fallback)
   return fallback
 end
 
+CivVITrainer_Util = Util
 return Util
-

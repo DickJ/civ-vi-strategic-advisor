@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Context Name="CivVITrainer">
-  <Container ID="AdvisorRoot" Anchor="R,T" Offset="24,132" Size="430,760" ConsumeMouse="1">
+  <Container ID="AdvisorRoot" Anchor="L,T" Offset="0,132" Size="430,auto" ConsumeMouse="0">
     <Grid ID="AdvisorPanel" Anchor="R,T" Size="430,auto" Color="40,46,52,245" Texture="Controls_GoldBox" SliceTextureSize="64,64" SliceCorner="16,16" InnerPadding="16,16">
       <Stack ID="MainStack" Anchor="L,T" Size="398,auto" StackGrowth="Bottom" Padding="6">
-        <Stack ID="Header" Size="398,36" StackGrowth="Right" Padding="8">
-          <Label ID="Title" Style="FontNormal22" Size="285,32" String="STRATEGIC ADVISOR" Color="229,203,145,255"/>
-          <GridButton ID="RefreshButton" Style="SmallButton" Size="94,32">
+        <Stack ID="Header" Size="398,36" StackGrowth="Right" Padding="6">
+          <Label ID="Title" Style="FontNormal22" Size="210,32" String="STRATEGIC ADVISOR" ToolTip="Drag this title to move the advisor." Color="229,203,145,255"/>
+          <GridButton ID="RefreshButton" Style="SmallButton" Size="82,32">
             <Label Anchor="C,C" Style="FontNormal16" String="Refresh"/>
+          </GridButton>
+          <GridButton ID="CollapseButton" Style="SmallButton" Size="92,32">
+            <Label ID="CollapseText" Anchor="C,C" Style="FontNormal14" String="Collapse"/>
           </GridButton>
         </Stack>
         <Label ID="Status" Style="FontNormal14" WrapWidth="398" String="Analyzing visible game state…" Color="190,205,215,255"/>
@@ -24,4 +27,3 @@
     </Grid>
   </Container>
 </Context>
-

@@ -1,10 +1,18 @@
-local State = include("CivVITrainer_State")
-local Evaluator = include("CivVITrainer_Evaluator")
+include("CivVITrainer_State")
+include("CivVITrainer_Evaluator")
+local State = CivVITrainer_State
+local Evaluator = CivVITrainer_Evaluator
 
 local m_recommendations = {}
 local m_highlightedPlots = {}
 local m_refreshPending = false
 local m_refreshDelay = 0
+local m_collapsed = false
+local m_dragging = false
+local m_panelX = 0
+local m_panelY = 132
+local m_dragOffsetX = 0
+local m_dragOffsetY = 0
 
 local m_buttons = {
   Controls.Move1, Controls.Move2, Controls.Move3, Controls.Move4, Controls.Move5,
@@ -66,23 +74,35 @@ end
 local function render()
   for index = 1, 5 do
     local recommendation = m_recommendations[index]
-    m_buttons[index]:SetHide(recommendation == nil)
+    m_buttons[index]:SetHide(m_collapsed or recommendation == nil)
     if recommendation then
       m_labels[index]:SetText(string.format("%d. %s  [COLOR_Gold](%.0f)[ENDCOLOR]", index, recommendation.title, recommendation.score))
       m_buttons[index]:SetToolTipString("Click to preview this plan on the map.")
     end
   end
+  Controls.Status:SetHide(m_collapsed)
+  Controls.ExplanationPanel:SetHide(m_collapsed)
+  Controls.CollapseText:SetText(m_collapsed and "Expand" or "Collapse")
   Controls.MainStack:CalculateSize()
   Controls.MainStack:ReprocessAnchoring()
   Controls.AdvisorPanel:SetSizeY(Controls.MainStack:GetSizeY() + 32)
+  Controls.AdvisorRoot:SetSizeY(Controls.AdvisorPanel:GetSizeY())
 end
 
 local function refresh()
   m_refreshPending = false
   m_refreshDelay = 0
   local ok, snapshot = pcall(State.Capture)
-  if not ok or not snapshot then
-    Controls.Status:SetText("Waiting for a playable local turn. Check Lua.log if this persists.")
+  if not ok then
+    local message = "State error: " .. tostring(snapshot)
+    Controls.Status:SetText(message)
+    Controls.Explanation:SetText(message)
+    print("CivVITrainer " .. message)
+    m_recommendations = {}
+    render()
+    return
+  elseif not snapshot then
+    Controls.Status:SetText("Waiting for a playable local turn.")
     m_recommendations = {}
     render()
     return
@@ -90,7 +110,8 @@ local function refresh()
 
   local rankedOk, recommendations = pcall(Evaluator.Rank, snapshot, 5)
   if not rankedOk then
-    Controls.Status:SetText("Analysis encountered an adapter error; see Lua.log.")
+    Controls.Status:SetText("Evaluator error: " .. tostring(recommendations))
+    Controls.Explanation:SetText("Evaluator error: " .. tostring(recommendations))
     print("CivVITrainer evaluator error: " .. tostring(recommendations))
     m_recommendations = {}
   else
@@ -102,6 +123,45 @@ local function refresh()
   Controls.Explanation:SetText("Select a recommendation to see its technical explanation.")
   clearHighlights()
   render()
+end
+
+local function toggleCollapsed()
+  m_collapsed = not m_collapsed
+  render()
+end
+
+local function positionAtDefault()
+  local screenWidth, _ = UIManager:GetScreenSizeVal()
+  m_panelX = math.max(0, screenWidth - 454)
+  m_panelY = 132
+  Controls.AdvisorRoot:SetOffsetVal(m_panelX, m_panelY)
+end
+
+local function onInputHandler(input)
+  local message = input:GetMessageType()
+  local mouseX = input:GetX()
+  local mouseY = input:GetY()
+
+  if message == MouseEvents.LButtonDown then
+    local inDragHandle = mouseX >= m_panelX and mouseX <= m_panelX + 210
+      and mouseY >= m_panelY and mouseY <= m_panelY + 38
+    if inDragHandle then
+      m_dragging = true
+      m_dragOffsetX = mouseX - m_panelX
+      m_dragOffsetY = mouseY - m_panelY
+      return true
+    end
+  elseif message == MouseEvents.MouseMove and m_dragging then
+    local screenWidth, screenHeight = UIManager:GetScreenSizeVal()
+    m_panelX = math.max(0, math.min(screenWidth - 430, mouseX - m_dragOffsetX))
+    m_panelY = math.max(0, math.min(screenHeight - 48, mouseY - m_dragOffsetY))
+    Controls.AdvisorRoot:SetOffsetVal(m_panelX, m_panelY)
+    return true
+  elseif message == MouseEvents.LButtonUp and m_dragging then
+    m_dragging = false
+    return true
+  end
+  return false
 end
 
 local function scheduleRefresh(delay)
@@ -125,10 +185,14 @@ local function initialize()
   end
   Controls.RefreshButton:RegisterCallback(Mouse.eLClick, refresh)
   Controls.RefreshButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  Controls.CollapseButton:RegisterCallback(Mouse.eLClick, toggleCollapsed)
+  Controls.CollapseButton:RegisterCallback(Mouse.eMouseEnter, function() UI.PlaySound("Main_Menu_Mouse_Over") end)
+  ContextPtr:SetInputHandler(onInputHandler, true)
   ContextPtr:SetUpdate(onUpdate)
   Events.LoadGameViewStateDone.Add(function() scheduleRefresh(0.25) end)
   Events.LocalPlayerTurnBegin.Add(function() scheduleRefresh(0.25) end)
   Events.GameCoreEventPlaybackComplete.Add(function() scheduleRefresh(0.30) end)
+  positionAtDefault()
   scheduleRefresh(0.25)
   print("CivVITrainer initialized")
 end
