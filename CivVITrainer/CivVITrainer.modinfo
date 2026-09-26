@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="3b473f26-769d-4baa-9e6b-8ddfbf15f674" version="1">
+  <Properties>
+    <Name>Civ VI Strategic Advisor</Name>
+    <Teaser>Offline, explainable next-move recommendations.</Teaser>
+    <Description>Ranks empire-wide actions using only player-visible information, previews destinations and paths, and explains the strategic reasoning.</Description>
+    <Authors>Rich and OpenAI Codex</Authors>
+    <EnabledByDefault>1</EnabledByDefault>
+    <AffectsSavedGames>0</AffectsSavedGames>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <InGameActions>
+    <ImportFiles id="CVITRAINER_IMPORT">
+      <Properties>
+        <Context>InGame</Context>
+        <LoadOrder>10</LoadOrder>
+      </Properties>
+      <File>UI/CivVITrainer_Util.lua</File>
+      <File>UI/CivVITrainer_Strategy.lua</File>
+      <File>UI/CivVITrainer_Evaluator.lua</File>
+      <File>UI/CivVITrainer_State.lua</File>
+    </ImportFiles>
+    <AddUserInterfaces id="CVITRAINER_UI">
+      <Properties>
+        <Context>InGame</Context>
+        <LoadOrder>20</LoadOrder>
+      </Properties>
+      <File>UI/CivVITrainer.xml</File>
+    </AddUserInterfaces>
+  </InGameActions>
+  <Files>
+    <File>UI/CivVITrainer.xml</File>
+    <File>UI/CivVITrainer.lua</File>
+    <File>UI/CivVITrainer_Util.lua</File>
+    <File>UI/CivVITrainer_Strategy.lua</File>
+    <File>UI/CivVITrainer_Evaluator.lua</File>
+    <File>UI/CivVITrainer_State.lua</File>
+  </Files>
+</Mod>
+

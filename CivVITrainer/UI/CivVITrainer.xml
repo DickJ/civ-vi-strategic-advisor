@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Context Name="CivVITrainer">
+  <Container ID="AdvisorRoot" Anchor="R,T" Offset="24,132" Size="430,760" ConsumeMouse="1">
+    <Grid ID="AdvisorPanel" Anchor="R,T" Size="430,auto" Color="40,46,52,245" Texture="Controls_GoldBox" SliceTextureSize="64,64" SliceCorner="16,16" InnerPadding="16,16">
+      <Stack ID="MainStack" Anchor="L,T" Size="398,auto" StackGrowth="Bottom" Padding="6">
+        <Stack ID="Header" Size="398,36" StackGrowth="Right" Padding="8">
+          <Label ID="Title" Style="FontNormal22" Size="285,32" String="STRATEGIC ADVISOR" Color="229,203,145,255"/>
+          <GridButton ID="RefreshButton" Style="SmallButton" Size="94,32">
+            <Label Anchor="C,C" Style="FontNormal16" String="Refresh"/>
+          </GridButton>
+        </Stack>
+        <Label ID="Status" Style="FontNormal14" WrapWidth="398" String="Analyzing visible game state…" Color="190,205,215,255"/>
+        <GridButton ID="Move1" Style="StandardButton" Size="398,52"><Label ID="Move1Text" Anchor="L,C" Offset="12,0" Style="FontNormal16" WrapWidth="370"/></GridButton>
+        <GridButton ID="Move2" Style="StandardButton" Size="398,52"><Label ID="Move2Text" Anchor="L,C" Offset="12,0" Style="FontNormal16" WrapWidth="370"/></GridButton>
+        <GridButton ID="Move3" Style="StandardButton" Size="398,52"><Label ID="Move3Text" Anchor="L,C" Offset="12,0" Style="FontNormal16" WrapWidth="370"/></GridButton>
+        <GridButton ID="Move4" Style="StandardButton" Size="398,52"><Label ID="Move4Text" Anchor="L,C" Offset="12,0" Style="FontNormal16" WrapWidth="370"/></GridButton>
+        <GridButton ID="Move5" Style="StandardButton" Size="398,52"><Label ID="Move5Text" Anchor="L,C" Offset="12,0" Style="FontNormal16" WrapWidth="370"/></GridButton>
+        <Grid ID="ExplanationPanel" Size="398,330" Color="18,23,28,235" Texture="Controls_GoldBox" SliceTextureSize="64,64" SliceCorner="16,16" InnerPadding="12,12">
+          <ScrollPanel ID="ExplanationScroll" Anchor="L,T" Size="374,306" Vertical="1">
+            <Label ID="Explanation" Anchor="L,T" Style="FontNormal14" WrapWidth="350" String="Select a recommendation to see its technical explanation."/>
+          </ScrollPanel>
+        </Grid>
+      </Stack>
+    </Grid>
+  </Container>
+</Context>
+
